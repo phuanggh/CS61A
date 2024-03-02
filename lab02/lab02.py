@@ -133,5 +133,14 @@ def cycle(f1, f2, f3):
     19
     """
     "*** YOUR CODE HERE ***"
-
-
+    def g(x):
+        if x == 0:
+            return x
+        elif x == 1:
+            return f1(x)
+        elif x == 2:
+            return f2(f1(x))
+        elif x == 3:
+            return f3(f2(f1(x)))
+        
+        for i in range(x + 1):
