@@ -29,6 +29,15 @@ def ordered_digits(x):
 
     """
     "*** YOUR CODE HERE ***"
+    last, x = x % 10, x // 10
+    while x > 0:
+        current = x % 10
+        if current > last:
+            return False
+        last, x = current, x // 10
+    return True
+    
+
 
 
 def get_k_run_starter(n, k):
@@ -50,16 +59,21 @@ def get_k_run_starter(n, k):
     >>> get_k_run_starter(1234234534564567, 2)
     2
     """
-    i = 0
-    final = None
-    while ____________________________:
-        while ____________________________:
-            ____________________________
-        final = ____________________________
-        i = ____________________________
-        n = ____________________________
-    return final
-
+    num_of_run = 0
+    last = None
+    while n > 0:
+        digit = n % 10
+        n = n // 10
+        if last == None:
+            last = digit
+            continue
+        if digit >= last:
+            if num_of_run == k:
+                return last
+            else:
+                num_of_run += 1
+        last = digit
+    return last
 
 def nearest_two(x):
     """Return the power of two that is nearest to x.
@@ -80,10 +94,23 @@ def nearest_two(x):
     2.0
 
     """
+    n = x
     power_of_two = 1.0
-    "*** YOUR CODE HERE ***"
-    return power_of_two
+    count = 0
+    while n > 0:
+        n //= 2
+        count += 1
 
+    lower = 2 ** (count - 1)
+    higher = 2 ** count
+    if abs(x - higher) < abs(x - lower):
+        power_of_two = higher
+    else:
+        power_of_two = lower
+
+    return float(power_of_two)
+
+nearest_two(14)
 
 def make_repeater(func, n):
     """Returns the function that computes the nth application of func.
@@ -99,8 +126,13 @@ def make_repeater(func, n):
     152587890625
     >>> make_repeater(square, 0)(5) # Yes, it makes sense to apply the function zero times!
     5
-    """
+    """     
     "*** YOUR CODE HERE ***"
+    def g(x):
+        for i in range(n):
+            x = func(x)
+        return x
+    return g
 
 def composer(func1, func2):
     """Returns a function f, such that f(x) = func1(func2(x))."""
@@ -117,6 +149,7 @@ def apply_twice(func):
     16
     """
     "*** YOUR CODE HERE ***"
+    return make_repeater(func, 2)
 
 
 def div_by_primes_under(n):
@@ -130,13 +163,20 @@ def div_by_primes_under(n):
     >>> div_by_primes_under(5)(1)
     False
     """
-    checker = lambda x: False
-    i = ____________________________
-    while ____________________________:
-        if not checker(i):
-            checker = ____________________________
-        i = ____________________________
-    return ____________________________
+    
+    # def g(k):
+    #     for i in range(2, n+1):
+    #         if k % i == 0:
+    #             return True
+    #     return False
+    return lambda k: any(k % i == 0 for i in range(2, n+1))
+    # checker = lambda x: False
+    # i = ____________________________
+    # while ____________________________:
+    #     if not checker(i):
+    #         checker = ____________________________
+    #     i = ____________________________
+    # return ____________________________
 
 def div_by_primes_under_no_lambda(n):
     """
@@ -149,16 +189,22 @@ def div_by_primes_under_no_lambda(n):
     >>> div_by_primes_under_no_lambda(5)(1)
     False
     """
-    def checker(x):
+    def g(k):
+        for i in range(2, n+1):
+            if k % i == 0:
+                return True
         return False
-    i = ____________________________
-    while ____________________________:
-        if not checker(i):
-            def outer(____________________________):
-                def inner(____________________________):
-                    return ____________________________
-                return ____________________________
-            checker = ____________________________
-        i = ____________________________
-    return ____________________________
+    return g
+    # def checker(x):
+    #     return False
+    # i = ____________________________
+    # while ____________________________:
+    #     if not checker(i):
+    #         def outer(____________________________):
+    #             def inner(____________________________):
+    #                 return ____________________________
+    #             return ____________________________
+    #         checker = ____________________________
+    #     i = ____________________________
+    # return ____________________________
 
