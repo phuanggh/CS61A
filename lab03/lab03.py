@@ -164,19 +164,7 @@ def div_by_primes_under(n):
     False
     """
     
-    # def g(k):
-    #     for i in range(2, n+1):
-    #         if k % i == 0:
-    #             return True
-    #     return False
     return lambda k: any(k % i == 0 for i in range(2, n+1))
-    # checker = lambda x: False
-    # i = ____________________________
-    # while ____________________________:
-    #     if not checker(i):
-    #         checker = ____________________________
-    #     i = ____________________________
-    # return ____________________________
 
 def div_by_primes_under_no_lambda(n):
     """
@@ -195,16 +183,4 @@ def div_by_primes_under_no_lambda(n):
                 return True
         return False
     return g
-    # def checker(x):
-    #     return False
-    # i = ____________________________
-    # while ____________________________:
-    #     if not checker(i):
-    #         def outer(____________________________):
-    #             def inner(____________________________):
-    #                 return ____________________________
-    #             return ____________________________
-    #         checker = ____________________________
-    #     i = ____________________________
-    # return ____________________________
 
