@@ -13,7 +13,8 @@ def my_map(fn, seq):
     2023
     [None, None, None]
     """
-    return ______
+    # return list(map(fn, seq))
+    return [fn(x) for x in seq]
 
 def my_filter(pred, seq):
     """Keeps elements in seq only if they satisfy pred.
@@ -31,7 +32,7 @@ def my_filter(pred, seq):
     >>> my_filter(lambda x: max(5, x) == 5, [1, 2, 3, 4, 5, 6, 7])
     [1, 2, 3, 4, 5]
     """
-    return ______
+    return [x for x in seq if pred(x)]
 
 def my_reduce(combiner, seq):
     """Combines elements in seq using combiner.
@@ -46,6 +47,10 @@ def my_reduce(combiner, seq):
     11
     """
     "*** YOUR CODE HERE ***"
+    result = seq[0]
+    for i in range(1, len(seq)):
+        result = combiner(result, seq[i])
+    return result
 
 def my_map_syntax_check():
     """Check that your two_of_three code consists of nothing but a return statement.
@@ -90,7 +95,12 @@ def double_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    if n == 0:
+        return False
+    elif n % 100 == 88:
+        return True
+    else:
+        return double_eights(n // 10)
 
 def merge(lst1, lst2):
     """Merges two sorted lists.
@@ -138,7 +148,10 @@ def summation(n, term):
     """
     assert n >= 1
     "*** YOUR CODE HERE ***"
-
+    if n == 1:
+        return term(1)
+    else:
+        return term(n) + summation(n-1, term)
 
 def count_palindromes(L):
     """The number of palindromic words in the sequence of strings
