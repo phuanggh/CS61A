@@ -127,7 +127,15 @@ def merge(lst1, lst2):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    if len(lst1) == 0:
+        return lst2
+    elif len(lst2) == 0:
+        return lst1
+    
+    if lst1[0] < lst2[0]:
+        return [lst1[0]] + merge(lst1[1:], lst2)
+    else:
+        return [lst2[0]] + merge(lst1, lst2[1:])
 
 def summation(n, term):
     """Return the sum of numbers 1 through n (including n) wíth term applied to each number.
@@ -160,5 +168,10 @@ def count_palindromes(L):
     >>> count_palindromes(("Acme", "Madam", "Pivot", "Pip"))
     2
     """
-    return ______
+    # calculate is palindrome
+    # filter
+    is_reversed = lambda x: x.lower() == x[::-1].lower()
+    palindromes = filter(is_reversed, L)
+    palindromes = tuple(palindromes)
+    return len(palindromes)
 
