@@ -232,22 +232,41 @@ def minimum_mewtations(typed, source, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    assert False, 'Remove this line'
-    if ___________: # Base cases should go here, you may add more base cases as needed.
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
-    # Recursive cases should go below here
-    if ___________: # Feel free to remove or add additional cases
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+    # assert False, 'Remove this line'
+    if typed == source:
+        return 0
+    diff =  abs(len(typed) - len(source))
+    if diff > limit:
+        return limit + 1
+    if len(typed) == 0:
+        return len(source)
+    if len(source) == 0:
+        return len(typed)
+    if typed in source or source in typed:
+        return diff
+    
+    if typed[0] == source[0]:
+        return minimum_mewtations(typed[1:], source[1:], limit)
     else:
-        add = ... # Fill in these lines
-        remove = ...
-        substitute = ...
-        # BEGIN
-        "*** YOUR CODE HERE ***"
+        add = minimum_mewtations(typed, source[1:], limit - 1)
+        remove = minimum_mewtations(typed[1:], source, limit - 1)
+        substitute = minimum_mewtations(typed[1:], source[1:], limit - 1)
+        return 1 + min(add, remove, substitute)
+    # if ___________: # Base cases should go here, you may add more base cases as needed.
+    #     # BEGIN
+    #     "*** YOUR CODE HERE ***"
+    #     # END
+    # # Recursive cases should go below here
+    # if ___________: # Feel free to remove or add additional cases
+    #     # BEGIN
+    #     "*** YOUR CODE HERE ***"
+    #     # END
+    # else:
+    #     add = ... # Fill in these lines
+    #     remove = ...
+    #     substitute = ...
+    #     # BEGIN
+    #     "*** YOUR CODE HERE ***"
         # END
 
 
@@ -289,6 +308,17 @@ def report_progress(typed, source, user_id, upload):
     """
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+
+    count = 0
+    for i in range(0, len(typed)):
+        if typed[i] == source[i]:
+            count += 1
+        else:
+            break
+    progress = count / len(source)
+    d = {'id': user_id, 'progress': progress}
+    upload(d)
+    return progress
     # END PROBLEM 8
 
 
@@ -311,6 +341,15 @@ def time_per_word(words, timestamps_per_player):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    time_per_word = []
+    for i in range(0, len(timestamps_per_player)):
+        player = timestamps_per_player[i]
+        time = []
+        for j in range(1, len(player)):
+            time.append(player[j] - player[j-1])
+        time_per_word.append(time)
+
+    return match(words, time_per_word)
     # END PROBLEM 9
 
 
