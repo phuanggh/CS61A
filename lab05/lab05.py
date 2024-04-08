@@ -1,56 +1,3 @@
-def berry_finder(t):
-    """Returns True if t contains a node with the value 'berry' and 
-    False otherwise.
-
-    >>> scrat = tree('berry')
-    >>> berry_finder(scrat)
-    True
-    >>> sproul = tree('roots', [tree('branch1', [tree('leaf'), tree('berry')]), tree('branch2')])
-    >>> berry_finder(sproul)
-    True
-    >>> numbers = tree(1, [tree(2), tree(3, [tree(4), tree(5)]), tree(6, [tree(7)])])
-    >>> berry_finder(numbers)
-    False
-    >>> t = tree(1, [tree('berry',[tree('not berry')])])
-    >>> berry_finder(t)
-    True
-    """
-    "*** YOUR CODE HERE ***"
-
-
-def replace_loki_at_leaf(t, lokis_replacement):
-    """Returns a new tree where every leaf value equal to "loki" has
-    been replaced with lokis_replacement.
-
-    >>> yggdrasil = tree('odin',
-    ...                  [tree('balder',
-    ...                        [tree('loki'),
-    ...                         tree('freya')]),
-    ...                   tree('frigg',
-    ...                        [tree('loki')]),
-    ...                   tree('loki',
-    ...                        [tree('sif'),
-    ...                         tree('loki')]),
-    ...                   tree('loki')])
-    >>> laerad = copy_tree(yggdrasil) # copy yggdrasil for testing purposes
-    >>> print_tree(replace_loki_at_leaf(yggdrasil, 'freya'))
-    odin
-      balder
-        freya
-        freya
-      frigg
-        freya
-      loki
-        sif
-        freya
-      freya
-    >>> laerad == yggdrasil # Make sure original tree is unmodified
-    True
-    """
-    "*** YOUR CODE HERE ***"
-
-
-
 # Tree ADT
 
 def tree(label, branches=[]):
@@ -132,7 +79,7 @@ def copy_tree(t):
     5
     """
     return tree(label(t), [copy_tree(b) for b in branches(t)])
-
+    
 
 from math import sqrt
 def distance(city_a, city_b):
@@ -240,6 +187,75 @@ def get_lon(city):
 
 ###############
 
+def change_abstraction(change):
+    """
+    For testing purposes.
+    >>> change_abstraction(True)
+    >>> change_abstraction.changed
+    True
+    """
+    change_abstraction.changed = change
+
+change_abstraction.changed = False
+
+
+def berry_finder(t):
+    """Returns True if t contains a node with the value 'berry' and 
+    False otherwise.
+
+    >>> scrat = tree('berry')
+    >>> berry_finder(scrat)
+    True
+    >>> sproul = tree('roots', [tree('branch1', [tree('leaf'), tree('berry')]), tree('branch2')])
+    >>> berry_finder(sproul)
+    True
+    >>> numbers = tree(1, [tree(2), tree(3, [tree(4), tree(5)]), tree(6, [tree(7)])])
+    >>> berry_finder(numbers)
+    False
+    >>> t = tree(1, [tree('berry',[tree('not berry')])])
+    >>> berry_finder(t)
+    True
+    """
+    "*** YOUR CODE HERE ***"
+    if label(t) == 'berry':
+        return True
+    return any([berry_finder(b) for b in branches(t)])
+
+def replace_loki_at_leaf(t, lokis_replacement):
+    """Returns a new tree where every leaf value equal to "loki" has
+    been replaced with lokis_replacement.
+
+    >>> yggdrasil = tree('odin',
+    ...                  [tree('balder',
+    ...                        [tree('loki'),
+    ...                         tree('freya')]),
+    ...                   tree('frigg',
+    ...                        [tree('loki')]),
+    ...                   tree('loki',
+    ...                        [tree('sif'),
+    ...                         tree('loki')]),
+    ...                   tree('loki')])
+    >>> laerad = copy_tree(yggdrasil) # copy yggdrasil for testing purposes
+    >>> print_tree(replace_loki_at_leaf(yggdrasil, 'freya'))
+    odin
+      balder
+        freya
+        freya
+      frigg
+        freya
+      loki
+        sif
+        freya
+      freya
+    >>> laerad == yggdrasil # Make sure original tree is unmodified
+    True
+    """
+    "*** YOUR CODE HERE ***"
+    if label(t) == "loki":
+        return tree(lokis_replacement, branches(t))
+    else:
+        return tree(label(t), [replace_loki_at_leaf(b, lokis_replacement) for b in branches(t)])
+
 
 def dejavu(t, n):
     """
@@ -278,14 +294,4 @@ def hailstone_tree(n, h):
     return tree(n, branches)
 
 
-def change_abstraction(change):
-    """
-    For testing purposes.
-    >>> change_abstraction(True)
-    >>> change_abstraction.changed
-    True
-    """
-    change_abstraction.changed = change
-
-change_abstraction.changed = False
 
