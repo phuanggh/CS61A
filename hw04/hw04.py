@@ -6,7 +6,9 @@ def filter(condition, lst):
     [2, 0]
     """
     "*** YOUR CODE HERE ***"
-
+    for x in lst[::-1]:
+        if condition(x) == False:
+            lst.remove(x)
 
 def deep_map_mut(func, lst):
     """Deeply maps a function over a list, replacing each item
@@ -34,6 +36,11 @@ def deep_map_mut(func, lst):
     """
     "*** YOUR CODE HERE ***"
 
+    for i, item in enumerate(lst):
+        if type(item) == list:
+            deep_map_mut(func, item)
+        else:
+            lst[i] = func(item)
 
 HW_SOURCE_FILE=__file__
 
@@ -48,6 +55,11 @@ def max_path_sum(t):
     17
     """
     "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        return label(t)
+    else:
+        return label(t) + max([max_path_sum(b) for b in branches(t)])
+    
 
 
 HW_SOURCE_FILE=__file__
