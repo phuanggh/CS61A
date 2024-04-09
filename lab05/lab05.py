@@ -82,35 +82,6 @@ def copy_tree(t):
     
 
 from math import sqrt
-def distance(city_a, city_b):
-    """
-    >>> city_a = make_city('city_a', 0, 1)
-    >>> city_b = make_city('city_b', 0, 2)
-    >>> distance(city_a, city_b)
-    1.0
-    >>> city_c = make_city('city_c', 6.5, 12)
-    >>> city_d = make_city('city_d', 2.5, 15)
-    >>> distance(city_c, city_d)
-    5.0
-    """
-    "*** YOUR CODE HERE ***"
-
-def closer_city(lat, lon, city_a, city_b):
-    """
-    Returns the name of either city_a or city_b, whichever is closest to
-    coordinate (lat, lon). If the two cities are the same distance away
-    from the coordinate, consider city_b to be the closer city.
-
-    >>> berkeley = make_city('Berkeley', 37.87, 112.26)
-    >>> stanford = make_city('Stanford', 34.05, 118.25)
-    >>> closer_city(38.33, 121.44, berkeley, stanford)
-    'Stanford'
-    >>> bucharest = make_city('Bucharest', 44.43, 26.10)
-    >>> vienna = make_city('Vienna', 48.20, 16.37)
-    >>> closer_city(41.29, 174.78, bucharest, vienna)
-    'Bucharest'
-    """
-    "*** YOUR CODE HERE ***"
 
 def check_city_abstraction():
     """
@@ -256,6 +227,43 @@ def replace_loki_at_leaf(t, lokis_replacement):
     else:
         return tree(label(t), [replace_loki_at_leaf(b, lokis_replacement) for b in branches(t)])
 
+def distance(city_a, city_b):
+    """
+    >>> city_a = make_city('city_a', 0, 1)
+    >>> city_b = make_city('city_b', 0, 2)
+    >>> distance(city_a, city_b)
+    1.0
+    >>> city_c = make_city('city_c', 6.5, 12)
+    >>> city_d = make_city('city_d', 2.5, 15)
+    >>> distance(city_c, city_d)
+    5.0
+    """
+    "*** YOUR CODE HERE ***"
+    return sqrt((get_lat(city_a) - get_lat(city_b)) ** 2 + (get_lon(city_a) - get_lon(city_b)) ** 2)
+
+def closer_city(lat, lon, city_a, city_b):
+    """
+    Returns the name of either city_a or city_b, whichever is closest to
+    coordinate (lat, lon). If the two cities are the same distance away
+    from the coordinate, consider city_b to be the closer city.
+
+    >>> berkeley = make_city('Berkeley', 37.87, 112.26)
+    >>> stanford = make_city('Stanford', 34.05, 118.25)
+    >>> closer_city(38.33, 121.44, berkeley, stanford)
+    'Stanford'
+    >>> bucharest = make_city('Bucharest', 44.43, 26.10)
+    >>> vienna = make_city('Vienna', 48.20, 16.37)
+    >>> closer_city(41.29, 174.78, bucharest, vienna)
+    'Bucharest'
+    """
+    "*** YOUR CODE HERE ***"
+    d_a = distance(city_a, make_city('temp', lat, lon))
+    d_b = distance(city_b, make_city('temp', lat, lon))
+    if d_a < d_b:
+        return get_name(city_a)
+    else:
+        return get_name(city_b)
+    
 
 def dejavu(t, n):
     """
@@ -266,7 +274,10 @@ def dejavu(t, n):
     False
     """
     "*** YOUR CODE HERE ***"
-
+    if is_leaf(t):
+        return True if n - label(t) == 0 else False
+    else:
+        return any([dejavu(b, n - label(t)) for b in branches(t)])
 
 def hailstone_tree(n, h):
     """Generates a tree of hailstone numbers that will reach N, with height H.
