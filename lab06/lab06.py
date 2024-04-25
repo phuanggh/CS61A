@@ -27,6 +27,10 @@ def insert_items(s, before, after):
     True
     """
     "*** YOUR CODE HERE ***"
+    for i in range(len(s) -1, -1, -1):
+        if s[i] == before:
+            s.insert(i+1, after)
+    return s
 
 
 def count_occurrences(t, n, x):
@@ -51,8 +55,18 @@ def count_occurrences(t, n, x):
     2
     """
     "*** YOUR CODE HERE ***"
-
-
+    index = 0
+    count = 0
+    try:
+        while True:
+            index += 1
+            if next(t) == x:
+                count += 1
+            if index == n:
+                return count
+    except StopIteration:
+        return count
+            
 def repeated(t, k):
     """Return the first value in iterator t that appears k times in a row,
     calling next on t as few times as possible.
@@ -74,7 +88,24 @@ def repeated(t, k):
     """
     assert k > 1
     "*** YOUR CODE HERE ***"
-
+    num = None
+    count = 0
+    try:
+        while True:
+            if num == None:
+                num = next(t)
+                count = 1
+            else:
+                next_num = next(t)
+                if next_num == num:
+                    count += 1
+                else:
+                    num = next_num
+                    count = 1
+                if count == k:
+                    return num
+    except StopIteration:
+        return num
 
 def partial_reverse(s, start):
     """Reverse part of a list in-place, starting with start up to the end of
@@ -89,4 +120,9 @@ def partial_reverse(s, start):
     [1, 2, 7, 6, 5, 3, 4]
     """
     "*** YOUR CODE HERE ***"
-
+    end = len(s) - 1
+    while start < end:
+        s[start], s[end] = s[end], s[start]
+        start += 1
+        end -= 1
+    
