@@ -9,7 +9,15 @@ def hailstone(n):
     1
     """
     "*** YOUR CODE HERE ***"
-
+    while True:
+      if n == 1:
+          yield 1
+      else:
+        if n % 2 == 0:
+            n /= 2
+        else:
+            n = n * 3 + 1
+        yield int(n)
 
 def merge(a, b):
     """Q2:
@@ -24,8 +32,34 @@ def merge(a, b):
     [2, 3, 5, 7, 8, 9, 11, 13, 14, 15]
     """
     "*** YOUR CODE HERE ***"
+    val_a = next(a)
+    val_b = next(b)
+    while True:
+        if val_a < val_b:
+            yield val_a
+            val_a = next(a)
+        elif val_b < val_a:
+            yield val_b
+            val_b = next(b)
+        else:
+            yield val_a
+            val_a = next(a)
+            val_b = next(b)
 
-
+### Recursive
+def permutations_recursive(arr):
+    if len(arr) == 1:
+        return [arr]
+    else:
+        result = []
+        for i in range(len(arr)):
+            first_elem = arr[i]
+            rest = arr[:i] + arr[i+1:]
+            rest_permutations = permutations_recursive(rest)
+            for perm in rest_permutations:
+                result.append([first_elem] + perm)
+        return result
+    
 def perms(seq):
     """Q3: Generates all permutations of the given sequence. Each permutation is a
     list of the elements in SEQ in a different order. The permutations may be
@@ -49,6 +83,31 @@ def perms(seq):
     [['a', 'b'], ['b', 'a']]
     """
     "*** YOUR CODE HERE ***"
+    try:
+        while True:
+            yield from permutations_recursive(seq)
+
+    except StopIteration:
+        print('No more permutations!')
+
+### For loop
+# def permutations_iterative(arr):
+#     if len(arr) == 0:
+#         return [[]]
+    
+#     result = [[item] for item in arr]
+#     print(result)
+#     for i in range(len(arr) - 1):
+#         temp = []
+#         for item in result:
+#             for num in arr:
+#                 if num not in item:
+#                     new_item = item + [num]
+#                     temp.append(new_item)
+#         result = temp
+#         print(result)
+#     return result
+
 
 
 def yield_paths(t, value):
