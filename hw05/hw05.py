@@ -46,20 +46,6 @@ def merge(a, b):
             val_a = next(a)
             val_b = next(b)
 
-### Recursive
-def permutations_recursive(arr):
-    if len(arr) == 1:
-        return [arr]
-    else:
-        result = []
-        for i in range(len(arr)):
-            first_elem = arr[i]
-            rest = arr[:i] + arr[i+1:]
-            rest_permutations = permutations_recursive(rest)
-            for perm in rest_permutations:
-                result.append([first_elem] + perm)
-        return result
-    
 def perms(seq):
     """Q3: Generates all permutations of the given sequence. Each permutation is a
     list of the elements in SEQ in a different order. The permutations may be
@@ -83,12 +69,40 @@ def perms(seq):
     [['a', 'b'], ['b', 'a']]
     """
     "*** YOUR CODE HERE ***"
-    try:
-        while True:
-            yield from permutations_recursive(seq)
 
+    ### Iterative
+    try:
+        if len(seq) == 1:
+            yield seq
+        else:
+            for i in range(len(seq)):
+                first_elem = seq[i]
+                rest = seq[:i] + seq[i+1:]
+                for perm in perms(rest):
+                    yield [first_elem] + perm
     except StopIteration:
         print('No more permutations!')
+
+### Recursive
+# try:
+#     while True:
+#         yield from permutations_recursive(seq)
+
+# except StopIteration:
+#     print('No more permutations!')
+
+def permutations_recursive(arr):
+    if len(arr) == 1:
+        return [arr]
+    else:
+        result = []
+        for i in range(len(arr)):
+            first_elem = arr[i]
+            rest = arr[:i] + arr[i+1:]
+            rest_permutations = permutations_recursive(rest)
+            for perm in rest_permutations:
+                result.append([first_elem] + perm)
+        return result
 
 ### For loop
 # def permutations_iterative(arr):
@@ -146,10 +160,26 @@ def yield_paths(t, value):
     """
     "*** YOUR CODE HERE ***"
     
-    for _______________ in _________________:
-        for _______________ in _________________:
-            "*** YOUR CODE HERE ***"
+    # for _______________ in _________________:
+        # for _______________ in _________________:
+            # "*** YOUR CODE HERE ***"
+    
+    if label(t) == value:
+        yield [value]
+    for b in branches(t):
+        for p in yield_paths(b, value):
+            yield [label(t)] + p
 
+# recursive
+def find_path_r(t, value):
+    temp = []
+    if label(t) == value:
+        temp.append([value])
+    for b in branches(t):
+        path = find_path_r(b, value)
+        if path:
+            temp = temp + [[label(t)] + p for p in path]
+    return temp
 
 def remainders_generator(m):
     """Q5:
@@ -266,4 +296,3 @@ def naturals():
     while True:
         yield i
         i += 1
-
