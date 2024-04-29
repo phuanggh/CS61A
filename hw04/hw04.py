@@ -98,16 +98,13 @@ def has_path(t, word):
     """
     assert len(word) > 0, 'no path for empty word.'
     "*** YOUR CODE HERE ***"
-    if is_leaf(t):
-        return True if label(t) == word[0] else False
-    else:
-        if label(t) == word[0]:
-            if word[1:] == '':
-                return True
-            else:
-                return any([has_path(b, word[1:]) for b in branches(t)])
+    if label(t) == word[0]:
+        if word[1:] == '':
+            return True
         else:
-            return False
+            return any([has_path(b, word[1:]) for b in branches(t)])
+    else:
+        return False
         
 
 # Tree ADT
