@@ -71,6 +71,7 @@ def perms(seq):
     "*** YOUR CODE HERE ***"
 
     ### Iterative
+    seq = list(seq)
     try:
         if len(seq) == 1:
             yield seq
@@ -82,7 +83,7 @@ def perms(seq):
                     yield [first_elem] + perm
     except StopIteration:
         print('No more permutations!')
-
+print(sorted(perms("ab")))
 ### Recursive
 # try:
 #     while True:
