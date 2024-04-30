@@ -18,21 +18,21 @@ class VendingMachine:
     'Nothing left to vend. Please restock.'
     >>> v.add_funds(15)
     'Nothing left to vend. Please restock. Here is your $15.'
-    >>> v.restock(2)
+    >>> v.restock(2) //
     'Current candy stock: 2'
-    >>> v.vend()
+    >>> v.vend() //
     'Please add $10 more funds.'
-    >>> v.add_funds(7)
+    >>> v.add_funds(7) //
     'Current balance: $7'
-    >>> v.vend()
+    >>> v.vend() //
     'Please add $3 more funds.'
-    >>> v.add_funds(5)
+    >>> v.add_funds(5) //
     'Current balance: $12'
-    >>> v.vend()
+    >>> v.vend() //
     'Here is your candy and $2 change.'
-    >>> v.add_funds(10)
+    >>> v.add_funds(10) //
     'Current balance: $10'
-    >>> v.vend()
+    >>> v.vend() //
     'Here is your candy.'
     >>> v.add_funds(15)
     'Nothing left to vend. Please restock. Here is your $15.'
@@ -48,6 +48,37 @@ class VendingMachine:
     'Here is your soda.'
     """
     "*** YOUR CODE HERE ***"
+    def __init__(self, product, price):
+        self.product = product
+        self.price = price
+        self.stock = 0
+        self.fund = 0
+    
+    def vend(self):
+        if self.stock == 0:
+            return 'Nothing left to vend. Please restock.'
+        if self.fund < self.price:
+            return f'Please add ${self.price - self.fund} more funds.'
+        elif self.fund > self.price:
+            self.fund == 0
+            self.stock -= 1
+            return f'Here is your {self.product} and ${self.fund - self.price} change.'
+        else:
+            self.fund == 0
+            self.stock -= 1
+            return f'Here is your {self.product}.'
+
+    def add_funds(self, amount):
+        if self.stock == 0:
+            return f'Nothing left to vend. Please restock. Here is your ${amount}.'
+        else:
+            self.fund += amount
+            return f'Current balance: ${self.fund}'
+    
+    def restock(self, amount):
+        self.stock += amount
+        return f'Current {self.product} stock: {self.stock}'
+        
 
 
 def store_digits(n):
