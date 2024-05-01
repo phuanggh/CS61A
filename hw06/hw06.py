@@ -18,21 +18,21 @@ class VendingMachine:
     'Nothing left to vend. Please restock.'
     >>> v.add_funds(15)
     'Nothing left to vend. Please restock. Here is your $15.'
-    >>> v.restock(2) //
+    >>> v.restock(2)
     'Current candy stock: 2'
-    >>> v.vend() //
+    >>> v.vend()
     'Please add $10 more funds.'
-    >>> v.add_funds(7) //
+    >>> v.add_funds(7)
     'Current balance: $7'
-    >>> v.vend() //
+    >>> v.vend()
     'Please add $3 more funds.'
-    >>> v.add_funds(5) //
+    >>> v.add_funds(5)
     'Current balance: $12'
-    >>> v.vend() //
+    >>> v.vend()
     'Here is your candy and $2 change.'
-    >>> v.add_funds(10) //
+    >>> v.add_funds(10)
     'Current balance: $10'
-    >>> v.vend() //
+    >>> v.vend()
     'Here is your candy.'
     >>> v.add_funds(15)
     'Nothing left to vend. Please restock. Here is your $15.'
@@ -60,11 +60,12 @@ class VendingMachine:
         if self.fund < self.price:
             return f'Please add ${self.price - self.fund} more funds.'
         elif self.fund > self.price:
-            self.fund == 0
+            refund = self.fund - self.price
+            self.fund = 0
             self.stock -= 1
-            return f'Here is your {self.product} and ${self.fund - self.price} change.'
+            return f'Here is your {self.product} and ${refund} change.'
         else:
-            self.fund == 0
+            self.fund =0
             self.stock -= 1
             return f'Here is your {self.product}.'
 
@@ -99,13 +100,11 @@ def store_digits(n):
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     """
     "*** YOUR CODE HERE ***"
+    l = Link.empty
     while n > 0:
         digit, n = n % 10, n // 10
-        if n == 0:
-            return Link(digit)
-        else:
-            return Link(digit, store_digits(n))
-
+        l = Link(digit, l)
+    return l
 
 def deep_map_mut(func, lnk):
     """Mutates a deep link lnk by replacing each item found with the
@@ -127,13 +126,24 @@ def deep_map_mut(func, lnk):
     <9 <16> 25 36>
     """
     "*** YOUR CODE HERE ***"
-    if isinstance(lnk, Link):
-        cur = lnk
-        while cur.rest is not Link.empty:
-            cur.first = func(cur.first)
-            cur = cur.rest
-        
+    # if isinstance(lnk, Link):
+    #     cur = lnk
+    #     while isinstance(cur, tuple) == False and cur.first is not Link.empty:
+    #         if isinstance(cur.first, Link):
+    #             cur.first.first = func(cur.first.first)
+    #             cur = cur.rest
+    #         else:
+    #             cur.first = func(cur.first)
+    #             cur = cur.rest
 
+    cur = lnk
+    if isinstance(lnk, Link):
+        if isinstance(cur.first, Link):
+            deep_map_mut(func, cur.first)
+        else:
+            cur.first = func(cur.first)
+        cur = cur.rest
+        deep_map_mut(func, cur) 
 
 def two_list(vals, counts):
     """
@@ -153,13 +163,20 @@ def two_list(vals, counts):
     >>> c
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
-    "*** YOUR CODE HERE ***"
-    while len(vals) > 0 and len(counts) > 0:
-        if counts[0] == 0:
-            vals.pop(0)
-            counts.pop(0)
-        else:
-            return Link(vals[0], two_list(vals, counts[0] - 1 + counts[1:]))
+    "*** YOUR CODE HERE ***" 
+    if counts[0] == 0:
+        vals.pop(0)
+        counts.pop(0)
+
+    if len(counts) == 0:
+        return Link.empty
+    
+    if len(counts) == 1:
+        counts = [counts[0] - 1]
+    else:
+        counts = [counts[0] - 1] + counts[1:]
+
+    return Link(vals[0], two_list(vals, counts))
 
 
 class Link:
@@ -202,4 +219,3 @@ class Link:
             string += str(self.first) + ' '
             self = self.rest
         return string + str(self.first) + '>'
-
