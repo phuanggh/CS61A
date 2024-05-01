@@ -39,9 +39,10 @@ class Account:
         assert self.balance > 0 and amount > 0 and self.interest > 0
         "*** YOUR CODE HERE ***"
         count = 0
-        while self.balance < amount:
+        temp_balance = self.balance
+        while temp_balance < amount:
             count += 1
-            self.balance += self.balance * self.interest
+            temp_balance += temp_balance * self.interest
         return count
 
 
