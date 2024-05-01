@@ -9,6 +9,7 @@ def hailstone(n):
     1
     """
     "*** YOUR CODE HERE ***"
+    yield n
     while True:
       if n == 1:
           yield 1
