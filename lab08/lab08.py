@@ -1,61 +1,3 @@
-def duplicate_link(link, val):
-    """Mutates `link` such that if there is a linked list
-    node that has a first equal to value, that node will
-    be duplicated. Note that you should be mutating the
-    original link list.
-
-    >>> x = Link(5, Link(4, Link(3)))
-    >>> duplicate_link(x, 5)
-    >>> x
-    Link(5, Link(5, Link(4, Link(3))))
-    >>> y = Link(2, Link(4, Link(6, Link(8))))
-    >>> duplicate_link(y, 10)
-    >>> y
-    Link(2, Link(4, Link(6, Link(8))))
-    >>> z = Link(1, Link(2, (Link(2, Link(3)))))
-    >>> duplicate_link(z, 2) # ensures that back to back links with val are both duplicated
-    >>> z
-    Link(1, Link(2, Link(2, Link(2, Link(2, Link(3))))))
-    """
-    "*** YOUR CODE HERE ***"
-
-
-def convert_link(link):
-    """Takes a linked list and returns a Python list with the same elements.
-
-    >>> link = Link(1, Link(2, Link(3, Link(4))))
-    >>> convert_link(link)
-    [1, 2, 3, 4]
-    >>> convert_link(Link.empty)
-    []
-    """
-    "*** YOUR CODE HERE ***"
-
-
-def multiply_lnks(lst_of_lnks):
-    """
-    >>> a = Link(2, Link(3))
-    >>> b = Link(5, Link(4))
-    >>> p1 = multiply_lnks([a, b])
-    >>> p1
-    Link(10, Link(12))
-
-    >>> c = Link(2, Link(3, Link(5)))
-    >>> d = Link(6, Link(4, Link(2)))
-    >>> e = Link(4, Link(1, Link(0, Link(2))))
-    >>> p2 = multiply_lnks([c, d, e])
-    >>> p2
-    Link(48, Link(12, Link(0)))
-    """
-    product = 1
-    for _________ in ________________:
-        if __________________________________________:
-            _________________________________
-        ___________________
-    lst_of_lnks_rests = [_________ for _________ in ________________]
-    return _________________________________________________
-
-
 class Link:
     """A linked list.
 
@@ -97,3 +39,106 @@ class Link:
             self = self.rest
         return string + str(self.first) + '>'
 
+
+
+def duplicate_link(link, val):
+    """Mutates `link` such that if there is a linked list
+    node that has a first equal to value, that node will
+    be duplicated. Note that you should be mutating the
+    original link list.
+
+    >>> x = Link(5, Link(4, Link(3)))
+    >>> duplicate_link(x, 5)
+    >>> x
+    Link(5, Link(5, Link(4, Link(3))))
+    >>> y = Link(2, Link(4, Link(6, Link(8))))
+    >>> duplicate_link(y, 10)
+    >>> y
+    Link(2, Link(4, Link(6, Link(8))))
+    >>> z = Link(1, Link(2, (Link(2, Link(3)))))
+    >>> duplicate_link(z, 2) # ensures that back to back links with val are both duplicated
+    >>> z
+    Link(1, Link(2, Link(2, Link(2, Link(2, Link(3))))))
+    """
+    "*** YOUR CODE HERE ***"
+    cur = link
+    while cur.rest != Link.empty:
+        if cur.first == val:
+            cur.rest = Link(val, cur.rest)
+            cur = cur.rest.rest
+        else:
+            cur = cur.rest
+    
+
+def convert_link(link):
+    """Takes a linked list and returns a Python list with the same elements.
+
+    >>> link = Link(1, Link(2, Link(3, Link(4))))
+    >>> convert_link(link)
+    [1, 2, 3, 4]
+    >>> convert_link(Link.empty)
+    []
+    """
+    "*** YOUR CODE HERE ***"
+    ### iterative
+    # result = []
+    # while isinstance(link, Link):
+    #     if isinstance(link.first, Link):
+    #         result += convert_link(link.first)
+    #     else:
+    #         result.append(link.first)
+    #     link = link.rest
+    # return result
+
+    ### recursive
+    if isinstance(link, Link):
+        if isinstance(link.first, Link):
+            return convert_link(link.first) + convert_link(link.rest)
+        else:
+            return [link.first] + convert_link(link.rest)
+    else:
+        return []
+
+
+def multiply_lnks(lst_of_lnks):
+    """
+    >>> a = Link(2, Link(3))
+    >>> b = Link(5, Link(4))
+    >>> p1 = multiply_lnks([a, b])
+    >>> p1
+    Link(10, Link(12))
+
+    >>> c = Link(2, Link(3, Link(5)))
+    >>> d = Link(6, Link(4, Link(2)))
+    >>> e = Link(4, Link(1, Link(0, Link(2))))
+    >>> p2 = multiply_lnks([c, d, e])
+    >>> p2
+    Link(48, Link(12, Link(0)))
+    """
+    # product = 1
+    # for _________ in ________________:
+    #     if __________________________________________:
+    #         _________________________________
+    #     ___________________
+    # lst_of_lnks_rests = [_________ for _________ in ________________]
+    # return _________________________________________________
+    reuslt = Link.empty
+    while all(type(link) != tuple for link in lst_of_lnks):
+        temp = 1
+        for i in range(len(lst_of_lnks)):
+            print(lst_of_lnks[i].first)
+            temp *= lst_of_lnks[i].first
+            lst_of_lnks[i] = lst_of_lnks[i].rest
+        result = Link(temp, result)
+    return reuslt
+
+# a = Link(2, Link(3))
+# b = Link(5, Link(4))
+# p1 = multiply_lnks([a, b])
+# print(p1)
+
+c = Link(2, Link(3, Link(5)))
+d = Link(6, Link(4, Link(2)))
+e = Link(4, Link(1, Link(0, Link(2))))
+p2 = multiply_lnks([c, d, e])
+print(p2)
