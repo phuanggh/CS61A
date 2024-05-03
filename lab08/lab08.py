@@ -122,23 +122,12 @@ def multiply_lnks(lst_of_lnks):
     #     ___________________
     # lst_of_lnks_rests = [_________ for _________ in ________________]
     # return _________________________________________________
-    reuslt = Link.empty
-    while all(type(link) != tuple for link in lst_of_lnks):
-        temp = 1
-        for i in range(len(lst_of_lnks)):
-            print(lst_of_lnks[i].first)
-            temp *= lst_of_lnks[i].first
-            lst_of_lnks[i] = lst_of_lnks[i].rest
-        result = Link(temp, result)
-    return reuslt
 
-# a = Link(2, Link(3))
-# b = Link(5, Link(4))
-# p1 = multiply_lnks([a, b])
-# print(p1)
-
-c = Link(2, Link(3, Link(5)))
-d = Link(6, Link(4, Link(2)))
-e = Link(4, Link(1, Link(0, Link(2))))
-p2 = multiply_lnks([c, d, e])
-print(p2)
+    product = 1
+    for link in lst_of_lnks:
+        if type(link) == tuple:
+            return Link.empty    
+        product *= link.first
+        
+    lst_of_lnks_rests = [link.rest for link in lst_of_lnks]
+    return Link(product, multiply_lnks(lst_of_lnks_rests))
