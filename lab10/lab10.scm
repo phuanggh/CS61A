@@ -15,8 +15,10 @@
 )
 
 
-(define (repeat f n) 'YOUR-CODE-HERE
-  
+(define (repeat f n)
+  (if (= n 1)
+    f
+    (composed f (repeat f (- n 1))))
 )
 
 (define (max a b)
