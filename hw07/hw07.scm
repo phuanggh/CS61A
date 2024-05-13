@@ -17,18 +17,14 @@
         (* y y y)
       )
   )
-)
-
-; def repeatedly-cube(n, x):
-;     if n == 0:
-;         return x
-;     else:
-;         y = repeatedly-cube(n - 1, x)
-;         return y * y * y
-  
+) 
 
 (define (cddr s) (cdr (cdr s)))
 
-(define (cadr s) 'YOUR-CODE-HERE)
+(define (cadr s) 
+  (car (cdr s))
+)
 
-(define (caddr s) 'YOUR-CODE-HERE)
+(define (caddr s) 
+  (car (cdr (cdr s)))
+)
