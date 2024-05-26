@@ -3,14 +3,14 @@
     ; else compare the first two elements of s
     ; if the first element is greater than the second element, return false
     ; else call ascending? on the rest
-
-    (if (null? s) 
-        #t
-        (if (> (car s) (cadr s))
+    
+  (or (null? s)
+      (null? (cdr s))
+      (let ((first (car s))
+            (second (cadr s)))
+        (if (> first second)
             #f
-            (ascending? (cdr s))
-        )
-    )    
+            (ascending? (cdr s)))))
 )
 
 (define (cadr s) 
@@ -51,12 +51,11 @@
     ; if s is nil, return nil
     ; else if the first element of s is not in the rest of s, cons the first element of s to the result of calling no-repeats on the rest of s
     ; else call no-repeats on the rest of s
-
-    (if (null? s)
-        '()
-        (if (not (member (car s) (cdr s)))
-            (cons (car s) (no-repeats (cdr s)))
-            (no-repeats (cdr s))
-        )
-    )
-)
+    (define (helper seen lst)
+        (filter (lambda (x)
+            (let ((is-seen (not (null? (filter (lambda (y) (= x y)) seen)))))
+                (if (not is-seen)
+                    (set! seen (cons x seen)))
+                (not is-seen)))
+            lst))
+    (helper '() s))
